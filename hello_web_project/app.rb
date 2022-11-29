@@ -45,4 +45,16 @@ class Application < Sinatra::Base
 
   end
 
+  post '/sort-names' do
+    name_1 = params[:name_1]
+    name_2 = params[:name_2]
+    name_3 = params[:name_3]
+
+    names = []
+    names << name_1
+    names << name_2
+    names << name_3
+
+    return names.sort.join(" ")
+  end
 end 

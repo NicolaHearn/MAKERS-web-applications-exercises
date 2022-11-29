@@ -1,4 +1,4 @@
-# {{ GET }} {{ NAMES }} Route Design Recipe
+# GET NAMES & SORT NAMES Route Design Recipe
 
 ## 1. Design the Route Signature
 
@@ -7,6 +7,9 @@ You'll need to include:
   * the path: /names
   * any query parameters :name 
   <!-- * or body parameters (passed in the request body) -->
+  * the HTTP method: POST
+  * the path: /sort-names
+  * any query parameters :names (array)
 
 ## 2. Design the Response
 
@@ -26,10 +29,13 @@ When Query param `names` is Julia, Mary, Karim
 Julia, Mary, Karim
 
 ```
+When Query param `names` is Julia, Mary, Karim
+```
+Julia, Karim, Mary
 
 <!-- EXAMPLE -->
 <!-- Response when the post is found: 404 OK -->
-When Query param `names` is Duncan
+When Query param `name` is Duncan
 
 Does not exist
 
@@ -43,16 +49,19 @@ _Replace these with your own design._
 
 GET /names?names=Julia&names=Mary&names=Karim
 
+POST /sort-names?names=["Julia","Mary","Karim"]
+
 # Expected response:
 
 Response for 200 OK
 Return Julia Mary Karim
-```
 
-```
+Response for 200 OK
+Return Karim Julia Mary
 # Request:
 
 GET /name?names=Julia&names=Mary&names=Karim
+POST /sort-names?name=["Julia","Mary","Karim"]
 
 # Expected response:
 
@@ -85,7 +94,22 @@ describe Application do
       response = get('/name?names=Julia&names=Mary&names=Karim')
 
       expect(response.status).to eq(404)
-      # expect(response.body).to eq(expected_response)
+    end
+  end
+
+  context "POST /sort-names" do
+    it 'returns 200 OK' do
+      # Assuming there gets request with 3 defined names.
+      response = post('/sort-names?names=["Julia","Mary", "Karim")
+
+      expect(response.status).to eq(200)
+      expect(response.body).to eq('Karim Julia Mary')
+    end
+
+    it 'returns 404 Not Found' do
+      response = post('/sort-name?names=Julia&names=Mary&names=Karim')
+
+      expect(response.status).to eq(404)
     end
   end
 end

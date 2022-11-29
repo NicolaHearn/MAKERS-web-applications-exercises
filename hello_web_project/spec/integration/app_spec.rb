@@ -27,4 +27,19 @@ describe Application do
       # expect(response.body).to eq(expected_response)
     end
   end
+
+  context "POST /sort-names" do
+    it 'returns 200 OK' do
+      response = post('/sort-names?name_1=Julia&name_2=Mary&name_3=Karim')
+
+      expect(response.status).to eq(200)
+      expect(response.body).to eq('Julia Karim Mary')
+    end
+
+    it 'returns 404 Not Found' do
+      response = post('/sort-name?names=Julia&names=Mary&names=Karim')
+
+      expect(response.status).to eq(404)
+    end
+  end
 end
