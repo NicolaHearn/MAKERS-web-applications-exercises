@@ -6,6 +6,16 @@ describe Application do
   include Rack::Test::Methods
   let(:app)  { Application.new }
 
+  context "GET /" do
+    it "returns 200 ok" do
+      response = get('/')
+      expect(response.status).to eq 200
+    end
+    it "returns a message and the name as a parameter" do
+      response = get('/?name=Nicola')
+      expect(response.body).to eq("Hello Nicola")
+    end
+  end
   context "GET /names" do
     it 'returns 200 OK' do
       # Assuming there gets request with 3 defined names.
@@ -42,4 +52,6 @@ describe Application do
       expect(response.status).to eq(404)
     end
   end
+
+
 end

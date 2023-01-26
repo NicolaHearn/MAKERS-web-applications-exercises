@@ -8,25 +8,17 @@ class Application < Sinatra::Base
     register Sinatra::Reloader
   end
 
-  # get '/' do
+  get '/' do
+    name = params[:name]
+    return "Hello #{name}"
+  end
 
-  #   name = params[:name] # The value is 'David'
+  get '/hello' do
 
-  #   # Do something with `name`...
-  
-  #   return "Hello #{name}"
-  # end
+    @name = params[:name]
+    return erb(:index)
+  end
 
-  # get '/posts' do 
-  #   name = params[:name]
-
-  #   return "Hello #{name}"
-  # end 
-
-  # post '/posts' do
-  #   name = params[:name]
-  #   return "Hello #{name}"
-  # end 
 
   # post '/submit' do
   #   name = params[:name]
